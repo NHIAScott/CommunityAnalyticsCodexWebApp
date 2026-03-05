@@ -6,219 +6,114 @@
   <title>Community Analytics — Single-File App</title>
   <style>
     :root {
-      --bg: #0f172a;
+      --bg: #0b1220;
       --panel: #111827;
-      --panel-2: #1f2937;
-      --text: #e5e7eb;
+      --panel2: #172033;
+      --txt: #e5e7eb;
       --muted: #9ca3af;
       --accent: #22d3ee;
-      --accent-2: #8b5cf6;
       --good: #22c55e;
       --warn: #f59e0b;
       --bad: #ef4444;
-      --border: #334155;
+      --line: #334155;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, #020617 0%, #111827 60%, #0f172a 100%);
-      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: var(--txt);
+      background: linear-gradient(180deg, #020617 0%, #111827 60%, #0b1220 100%);
       min-height: 100vh;
     }
-
-    .container {
-      width: min(1200px, 95vw);
-      margin: 1.5rem auto 2rem;
-      display: grid;
-      gap: 1rem;
-    }
-
+    .container { width: min(1240px, 96vw); margin: 1rem auto 2rem; display: grid; gap: 1rem; }
     .panel {
-      background: color-mix(in srgb, var(--panel) 88%, black);
-      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--panel) 92%, black);
+      border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 1rem;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+      padding: .9rem;
     }
-
-    h1, h2, h3 { margin: 0 0 0.6rem; }
-    h1 { font-size: clamp(1.3rem, 3vw, 2rem); }
-    h2 { font-size: 1.1rem; color: #d1d5db; }
-
-    .subtle { color: var(--muted); font-size: 0.9rem; }
-
-    .controls {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 0.7rem;
-      align-items: end;
-    }
-
-    .control {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-      min-width: 120px;
-    }
-
-    .control label {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
+    h1,h2,h3 { margin: 0 0 .5rem; }
+    h1 { font-size: clamp(1.25rem, 2.4vw, 1.9rem); }
+    .subtle { color: var(--muted); font-size: .9rem; }
+    .controls { display: grid; grid-template-columns: repeat(12, 1fr); gap: .65rem; align-items: end; }
+    .control { display: flex; flex-direction: column; gap: .2rem; min-width: 120px; }
+    .control label { color: var(--muted); font-size: .78rem; }
     input, select, button {
-      background: var(--panel-2);
-      color: var(--text);
+      width: 100%;
+      background: var(--panel2);
+      color: var(--txt);
       border: 1px solid #475569;
       border-radius: 8px;
-      padding: 0.5rem 0.6rem;
-      font-size: 0.92rem;
+      padding: .5rem .62rem;
+      font-size: .9rem;
     }
-
-    button {
-      cursor: pointer;
-      transition: transform .08s ease, border-color .2s ease;
-    }
-
+    button { cursor: pointer; }
     button:hover { border-color: var(--accent); }
-    button:active { transform: scale(0.98); }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 0.7rem;
-    }
-
-    .metric {
-      background: #0b1220;
-      border: 1px solid #273548;
-      border-radius: 10px;
-      padding: 0.75rem;
-    }
-
-    .metric h3 {
-      margin: 0;
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .03em;
-    }
-
-    .metric .v {
-      font-size: 1.35rem;
-      margin-top: 0.35rem;
-      font-weight: 700;
-    }
-
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 0.8rem;
-    }
-
-    .chart-card {
-      background: #0b1220;
-      border: 1px solid #273548;
-      border-radius: 10px;
-      padding: 0.6rem;
-    }
-
-    canvas { width: 100%; height: 220px; display: block; background: #07101b; border-radius: 8px; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-
-    th, td {
-      border-bottom: 1px solid #1f2937;
-      padding: 0.5rem;
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th { color: #cbd5e1; font-size: 0.8rem; text-transform: uppercase; letter-spacing: .03em; }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.12rem 0.45rem;
-      border-radius: 999px;
-      font-size: 0.74rem;
-      font-weight: 600;
-      border: 1px solid;
-    }
-
-    .sent-positive { color: #86efac; border-color: #166534; background: #052e16; }
-    .sent-neutral { color: #fcd34d; border-color: #854d0e; background: #451a03; }
-    .sent-negative { color: #fca5a5; border-color: #7f1d1d; background: #450a0a; }
-
-    .footer-note { color: var(--muted); font-size: 0.82rem; }
-
-    @media (max-width: 800px) {
-      .controls { grid-template-columns: repeat(2, 1fr); }
-    }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap: .65rem; }
+    .metric { border: 1px solid #243244; border-radius: 10px; padding: .7rem; background: #0c1527; }
+    .metric h3 { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; margin: 0; }
+    .metric .v { margin-top: .35rem; font-size: 1.3rem; font-weight: 700; }
+    .charts { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: .75rem; }
+    .chart-card { border: 1px solid #243244; border-radius: 10px; padding: .6rem; background: #0c1527; }
+    canvas { width: 100%; height: 220px; display: block; background: #0a1222; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    th, td { border-bottom: 1px solid #1f2937; padding: .45rem; text-align: left; vertical-align: top; }
+    th { color: #cbd5e1; text-transform: uppercase; font-size: .78rem; letter-spacing: .03em; }
+    .tag { display: inline-flex; border-radius: 999px; padding: .12rem .45rem; border: 1px solid; font-size: .74rem; font-weight: 600; }
+    .sent-positive { color: #86efac; background: #052e16; border-color: #166534; }
+    .sent-neutral { color: #fcd34d; background: #451a03; border-color: #854d0e; }
+    .sent-negative { color: #fca5a5; background: #450a0a; border-color: #7f1d1d; }
+    .suite-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: .45rem; }
+    .suite-item { border: 1px solid #253447; border-radius: 9px; padding: .5rem; background: #0d1728; }
+    .suite-item .k { color: var(--muted); font-size: .76rem; text-transform: uppercase; }
+    .suite-item .v { font-weight: 700; margin-top: .2rem; }
+    .ok { color: var(--good); }
+    .warn { color: var(--warn); }
+    .scroll { overflow: auto; max-height: 350px; }
+    @media (max-width: 900px) { .controls { grid-template-columns: repeat(2,1fr); } }
   </style>
 </head>
 <body>
   <div class="container">
     <section class="panel">
       <h1>Community Analytics — Single-File Web App</h1>
-      <p class="subtle">Upload CSV data or use the built-in sample. This app computes engagement KPIs, trend lines, sentiment distribution, and top communities in one portable HTML file.</p>
+      <p class="subtle">Load one CSV, or load a full suite of CSV files at once (posts/comments/reactions/members/events). The app auto-classifies files by filename/headers and merges them into unified analytics.</p>
       <div class="controls">
         <div class="control" style="grid-column: span 4;">
-          <label for="csvFile">CSV file</label>
+          <label for="csvFile">Single CSV</label>
           <input id="csvFile" type="file" accept=".csv,text/csv" />
         </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="platformFilter">Platform</label>
-          <select id="platformFilter"><option value="">All</option></select>
+        <div class="control" style="grid-column: span 4;">
+          <label for="suiteFiles">Dataset suite (multi-select)</label>
+          <input id="suiteFiles" type="file" multiple accept=".csv,text/csv" />
         </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="communityFilter">Community</label>
-          <select id="communityFilter"><option value="">All</option></select>
+        <div class="control" style="grid-column: span 2;"><button id="loadSample">Load sample suite</button></div>
+        <div class="control" style="grid-column: span 2;"><button id="exportCsv">Export filtered CSV</button></div>
+
+        <div class="control" style="grid-column: span 2;"><label>Platform</label><select id="platformFilter"><option value="">All</option></select></div>
+        <div class="control" style="grid-column: span 2;"><label>Community</label><select id="communityFilter"><option value="">All</option></select></div>
+        <div class="control" style="grid-column: span 2;"><label>Sentiment</label>
+          <select id="sentimentFilter"><option value="">All</option><option>positive</option><option>neutral</option><option>negative</option></select>
         </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="sentimentFilter">Sentiment</label>
-          <select id="sentimentFilter">
-            <option value="">All</option>
-            <option value="positive">Positive</option>
-            <option value="neutral">Neutral</option>
-            <option value="negative">Negative</option>
-          </select>
+        <div class="control" style="grid-column: span 2;"><label>Record type</label>
+          <select id="typeFilter"><option value="">All</option><option>post</option><option>comment</option><option>reaction</option><option>event</option><option>member</option></select>
         </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="keywordSearch">Keyword</label>
-          <input id="keywordSearch" placeholder="title or body" />
+        <div class="control" style="grid-column: span 2;"><label>Keyword</label><input id="keywordSearch" placeholder="title/body" /></div>
+        <div class="control" style="grid-column: span 2;"><label>Min engagement</label><input id="minEngagement" type="number" min="0" value="0" /></div>
+
+        <div class="control" style="grid-column: span 2;"><label>Start date</label><input id="startDate" type="date" /></div>
+        <div class="control" style="grid-column: span 2;"><label>End date</label><input id="endDate" type="date" /></div>
+        <div class="control" style="grid-column: span 2;"><label>Sort by</label>
+          <select id="sortBy"><option value="date_desc">Date (newest)</option><option value="engagement_desc">Engagement (high→low)</option><option value="engagement_asc">Engagement (low→high)</option></select>
         </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="startDate">Start date</label>
-          <input id="startDate" type="date" />
-        </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="endDate">End date</label>
-          <input id="endDate" type="date" />
-        </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="minEngagement">Min engagement</label>
-          <input id="minEngagement" type="number" min="0" value="0" />
-        </div>
-        <div class="control" style="grid-column: span 2;">
-          <label for="sortBy">Sort table by</label>
-          <select id="sortBy">
-            <option value="date_desc">Date (newest)</option>
-            <option value="engagement_desc">Engagement (high→low)</option>
-            <option value="engagement_asc">Engagement (low→high)</option>
-          </select>
-        </div>
-        <div class="control" style="grid-column: span 1;"><button id="resetFilters">Reset</button></div>
-        <div class="control" style="grid-column: span 1;"><button id="exportCsv">Export filtered CSV</button></div>
-        <div class="control" style="grid-column: span 2;"><button id="loadSample">Load sample data</button></div>
+        <div class="control" style="grid-column: span 2;"><button id="resetFilters">Reset filters</button></div>
       </div>
+    </section>
+
+    <section class="panel">
+      <h2>Loaded Dataset Suite</h2>
+      <div class="suite-list" id="suiteSummary"></div>
+      <p class="subtle" id="suiteNote"></p>
     </section>
 
     <section class="panel">
@@ -227,135 +122,177 @@
     </section>
 
     <section class="panel charts">
-      <div class="chart-card">
-        <h3>Posts Over Time</h3>
-        <canvas id="trendChart" width="540" height="220"></canvas>
-      </div>
-      <div class="chart-card">
-        <h3>Sentiment Distribution</h3>
-        <canvas id="sentimentChart" width="540" height="220"></canvas>
-      </div>
-      <div class="chart-card">
-        <h3>Top Communities by Engagement</h3>
-        <canvas id="communityChart" width="540" height="220"></canvas>
-      </div>
+      <div class="chart-card"><h3>Records Over Time</h3><canvas id="trendChart" width="540" height="220"></canvas></div>
+      <div class="chart-card"><h3>Sentiment Distribution</h3><canvas id="sentimentChart" width="540" height="220"></canvas></div>
+      <div class="chart-card"><h3>Top Communities by Engagement</h3><canvas id="communityChart" width="540" height="220"></canvas></div>
     </section>
 
     <section class="panel">
-      <h2>Filtered Records</h2>
-      <div style="overflow:auto; max-height: 360px;">
+      <h2>Filtered Unified Records</h2>
+      <div class="scroll">
         <table>
           <thead>
             <tr>
-              <th>Date</th>
-              <th>Platform</th>
-              <th>Community</th>
-              <th>Title</th>
-              <th>Sentiment</th>
-              <th>Engagement</th>
-              <th>Comments</th>
+              <th>Date</th><th>Type</th><th>Platform</th><th>Community</th><th>Title / Text</th><th>Sentiment</th><th>Engagement</th><th>Comments</th>
             </tr>
           </thead>
           <tbody id="recordsBody"></tbody>
         </table>
       </div>
-      <p class="footer-note" id="recordCount"></p>
+      <p class="subtle" id="recordCount"></p>
     </section>
   </div>
 
   <script>
-    const sampleData = [
-      { date: '2026-01-03', platform: 'Reddit', community: 'r/javascript', title: 'Bundler benchmark', body: 'Discussion on Vite, webpack, and esbuild.', sentiment: 'positive', engagement: 230, comments: 56 },
-      { date: '2026-01-05', platform: 'Discord', community: 'Frontend Hub', title: 'State management poll', body: 'Zustand and Redux tradeoffs.', sentiment: 'neutral', engagement: 120, comments: 44 },
-      { date: '2026-01-07', platform: 'Reddit', community: 'r/reactjs', title: 'React server components feedback', body: 'Performance insights and migration pain.', sentiment: 'negative', engagement: 188, comments: 81 },
-      { date: '2026-01-09', platform: 'Slack', community: 'Eng Leaders', title: 'Quarterly roadmap AMA', body: 'Leadership transparency improved trust.', sentiment: 'positive', engagement: 165, comments: 29 },
-      { date: '2026-01-10', platform: 'X', community: '#webdev', title: 'CSS anchor positioning thread', body: 'Practical examples and edge cases.', sentiment: 'positive', engagement: 315, comments: 68 },
-      { date: '2026-01-12', platform: 'Discord', community: 'Data Guild', title: 'Instrumentation backlog', body: 'Missing event coverage causes blind spots.', sentiment: 'negative', engagement: 92, comments: 37 },
-      { date: '2026-01-13', platform: 'Reddit', community: 'r/node', title: 'Runtime security checklist', body: 'Hardening and dependency scanning tips.', sentiment: 'neutral', engagement: 147, comments: 24 },
-      { date: '2026-01-15', platform: 'Slack', community: 'CX Working Group', title: 'Support ticket taxonomy', body: 'Tagging updates reduced triage time.', sentiment: 'positive', engagement: 202, comments: 34 },
-      { date: '2026-01-17', platform: 'X', community: '#analytics', title: 'Attribution model hot take', body: 'Last click vs multi-touch debate.', sentiment: 'negative', engagement: 110, comments: 18 },
-      { date: '2026-01-19', platform: 'Discord', community: 'Frontend Hub', title: 'Accessibility office hours recap', body: 'High turnout and useful keyboard nav tips.', sentiment: 'positive', engagement: 176, comments: 51 },
-      { date: '2026-01-21', platform: 'Reddit', community: 'r/datascience', title: 'Cohort retention dashboard', body: 'Showed churn pattern across onboarding week.', sentiment: 'neutral', engagement: 205, comments: 63 },
-      { date: '2026-01-23', platform: 'Slack', community: 'Eng Leaders', title: 'Incident review process update', body: 'Postmortem consistency remains mixed.', sentiment: 'negative', engagement: 138, comments: 22 }
-    ];
+    const sampleSuite = {
+      posts: [
+        { date: '2026-01-03', platform: 'Reddit', community: 'r/javascript', title: 'Bundler benchmark', body: 'Vite vs webpack', sentiment: 'positive', engagement: 230, comments: 56 },
+        { date: '2026-01-10', platform: 'X', community: '#webdev', title: 'CSS anchor positioning', body: 'Examples and edge cases', sentiment: 'positive', engagement: 315, comments: 68 },
+        { date: '2026-01-21', platform: 'Reddit', community: 'r/datascience', title: 'Cohort retention dashboard', body: 'Churn pattern', sentiment: 'neutral', engagement: 205, comments: 63 }
+      ],
+      comments: [
+        { date: '2026-01-11', platform: 'Discord', community: 'Frontend Hub', body: 'Redux migration concern', sentiment: 'negative', engagement: 15, comments: 0 },
+        { date: '2026-01-12', platform: 'Discord', community: 'Frontend Hub', body: 'Accessibility is improving', sentiment: 'positive', engagement: 23, comments: 0 }
+      ],
+      reactions: [
+        { date: '2026-01-12', platform: 'Slack', community: 'Eng Leaders', body: 'Roadmap reactions', sentiment: 'neutral', engagement: 86, comments: 0 }
+      ],
+      events: [
+        { date: '2026-01-14', platform: 'Slack', community: 'CX Working Group', title: 'Office hours', body: 'Attendance surged', sentiment: 'positive', engagement: 140, comments: 0 }
+      ],
+      members: [
+        { date: '2026-01-02', platform: 'Discord', community: 'Data Guild', title: 'New members joined', body: '23 net new', sentiment: 'neutral', engagement: 23, comments: 0 }
+      ]
+    };
 
     const state = {
-      rows: [...sampleData],
-      filtered: []
+      rows: [],
+      filtered: [],
+      suiteCounts: { posts: 0, comments: 0, reactions: 0, events: 0, members: 0, unknown: 0 },
+      suiteFiles: []
     };
 
-    const el = (id) => document.getElementById(id);
-
+    const el = id => document.getElementById(id);
     const controls = {
-      csvFile: el('csvFile'),
-      platformFilter: el('platformFilter'),
-      communityFilter: el('communityFilter'),
-      sentimentFilter: el('sentimentFilter'),
-      keywordSearch: el('keywordSearch'),
-      startDate: el('startDate'),
-      endDate: el('endDate'),
-      minEngagement: el('minEngagement'),
-      sortBy: el('sortBy'),
-      resetFilters: el('resetFilters'),
-      exportCsv: el('exportCsv'),
-      loadSample: el('loadSample')
+      csvFile: el('csvFile'), suiteFiles: el('suiteFiles'), loadSample: el('loadSample'), exportCsv: el('exportCsv'),
+      platformFilter: el('platformFilter'), communityFilter: el('communityFilter'), sentimentFilter: el('sentimentFilter'),
+      typeFilter: el('typeFilter'), keywordSearch: el('keywordSearch'), minEngagement: el('minEngagement'),
+      startDate: el('startDate'), endDate: el('endDate'), sortBy: el('sortBy'), resetFilters: el('resetFilters')
     };
 
-    function normalizeRow(r) {
-      return {
-        date: r.date || r.created_at || r.timestamp || '',
-        platform: r.platform || 'Unknown',
-        community: r.community || r.channel || r.group || 'Unknown',
-        title: r.title || r.subject || '',
-        body: r.body || r.text || r.content || '',
-        sentiment: (r.sentiment || 'neutral').toLowerCase(),
-        engagement: Number(r.engagement ?? r.reactions ?? r.likes ?? 0) || 0,
-        comments: Number(r.comments ?? r.replies ?? 0) || 0
+    function normalizeRow(row, sourceType = 'post') {
+      const normalized = {
+        date: row.date || row.created_at || row.timestamp || row.time || '',
+        type: (row.type || sourceType || 'post').toLowerCase(),
+        platform: row.platform || row.source || 'Unknown',
+        community: row.community || row.channel || row.group || row.forum || 'Unknown',
+        title: row.title || row.subject || '',
+        body: row.body || row.text || row.content || row.message || '',
+        sentiment: (row.sentiment || 'neutral').toLowerCase(),
+        engagement: Number(row.engagement ?? row.reactions ?? row.likes ?? row.score ?? 0) || 0,
+        comments: Number(row.comments ?? row.replies ?? row.reply_count ?? 0) || 0
       };
-    }
-
-    function parseCsv(text) {
-      const lines = text.trim().split(/\r?\n/);
-      if (lines.length < 2) return [];
-      const headers = splitCsvLine(lines[0]).map(h => h.trim());
-      return lines.slice(1).map(line => {
-        const cols = splitCsvLine(line);
-        const obj = {};
-        headers.forEach((h, i) => obj[h] = (cols[i] || '').trim());
-        return normalizeRow(obj);
-      });
+      if (!['positive', 'neutral', 'negative'].includes(normalized.sentiment)) normalized.sentiment = 'neutral';
+      return normalized;
     }
 
     function splitCsvLine(line) {
-      const out = [];
-      let cur = '';
-      let inQuotes = false;
+      const out = []; let cur = ''; let inQuotes = false;
       for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         if (ch === '"') {
-          if (inQuotes && line[i + 1] === '"') {
-            cur += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (ch === ',' && !inQuotes) {
-          out.push(cur);
-          cur = '';
-        } else {
-          cur += ch;
-        }
+          if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+          else inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) { out.push(cur); cur = ''; }
+        else cur += ch;
       }
       out.push(cur);
       return out;
     }
 
+    function parseCsv(text, inferredType = 'post') {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) return [];
+      const headers = splitCsvLine(lines[0]).map(h => h.trim());
+      return lines.slice(1).filter(Boolean).map(line => {
+        const cols = splitCsvLine(line);
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = (cols[i] || '').trim());
+        return normalizeRow(obj, inferredType);
+      });
+    }
+
+    function inferDatasetType(fileName, headers = []) {
+      const s = `${fileName} ${headers.join(' ')}`.toLowerCase();
+      if (s.includes('comment') || headers.includes('reply_id')) return 'comments';
+      if (s.includes('reaction') || s.includes('emoji') || headers.includes('reaction_type')) return 'reactions';
+      if (s.includes('member') || s.includes('user_count') || headers.includes('member_id')) return 'members';
+      if (s.includes('event') || headers.includes('event_name')) return 'events';
+      if (s.includes('post') || headers.includes('title') || headers.includes('content')) return 'posts';
+      return 'unknown';
+    }
+
+    function datasetTypeToRecordType(datasetType) {
+      return ({ posts: 'post', comments: 'comment', reactions: 'reaction', members: 'member', events: 'event', unknown: 'post' })[datasetType] || 'post';
+    }
+
+    async function loadSuiteFiles(files) {
+      const counts = { posts: 0, comments: 0, reactions: 0, events: 0, members: 0, unknown: 0 };
+      const suiteRows = [];
+      const fileSummaries = [];
+
+      for (const file of files) {
+        const text = await file.text();
+        const firstLine = text.split(/\r?\n/, 1)[0] || '';
+        const headers = splitCsvLine(firstLine).map(h => h.trim().toLowerCase());
+        const datasetType = inferDatasetType(file.name, headers);
+        const recordType = datasetTypeToRecordType(datasetType);
+        const parsed = parseCsv(text, recordType);
+
+        counts[datasetType] = (counts[datasetType] || 0) + parsed.length;
+        suiteRows.push(...parsed);
+        fileSummaries.push({ name: file.name, datasetType, rows: parsed.length });
+      }
+
+      state.rows = suiteRows;
+      state.suiteCounts = counts;
+      state.suiteFiles = fileSummaries;
+      updateFilterOptions();
+      resetFilters();
+    }
+
+    function loadSampleSuite() {
+      const counts = { posts: 0, comments: 0, reactions: 0, events: 0, members: 0, unknown: 0 };
+      const rows = [];
+      for (const [datasetType, records] of Object.entries(sampleSuite)) {
+        const recordType = datasetTypeToRecordType(datasetType);
+        const normalized = records.map(r => normalizeRow({ ...r, type: recordType }, recordType));
+        counts[datasetType] += normalized.length;
+        rows.push(...normalized);
+      }
+      state.rows = rows;
+      state.suiteCounts = counts;
+      state.suiteFiles = Object.entries(sampleSuite).map(([k,v]) => ({ name: `${k}.csv`, datasetType: k, rows: v.length }));
+      updateFilterOptions();
+      resetFilters();
+    }
+
+    function updateSuiteSummary() {
+      const entries = [
+        ['Posts', state.suiteCounts.posts], ['Comments', state.suiteCounts.comments], ['Reactions', state.suiteCounts.reactions],
+        ['Members', state.suiteCounts.members], ['Events', state.suiteCounts.events], ['Unknown', state.suiteCounts.unknown]
+      ];
+      el('suiteSummary').innerHTML = entries.map(([k,v]) => `<div class="suite-item"><div class="k">${k}</div><div class="v ${v ? 'ok':'warn'}">${v.toLocaleString()} row(s)</div></div>`).join('');
+      const files = state.suiteFiles.map(f => `${f.name} → ${f.datasetType} (${f.rows})`).join(' | ');
+      el('suiteNote').textContent = files ? `Loaded files: ${files}` : 'No files loaded yet. Use sample suite or upload one/many CSVs.';
+    }
+
     function updateFilterOptions() {
       const platforms = [...new Set(state.rows.map(r => r.platform))].sort();
       const communities = [...new Set(state.rows.map(r => r.community))].sort();
-
-      controls.platformFilter.innerHTML = '<option value="">All</option>' + platforms.map(v => `<option>${v}</option>`).join('');
-      controls.communityFilter.innerHTML = '<option value="">All</option>' + communities.map(v => `<option>${v}</option>`).join('');
+      controls.platformFilter.innerHTML = '<option value="">All</option>' + platforms.map(v => `<option>${escapeHtml(v)}</option>`).join('');
+      controls.communityFilter.innerHTML = '<option value="">All</option>' + communities.map(v => `<option>${escapeHtml(v)}</option>`).join('');
+      updateSuiteSummary();
     }
 
     function applyFilters() {
@@ -363,10 +300,11 @@
         platform: controls.platformFilter.value,
         community: controls.communityFilter.value,
         sentiment: controls.sentimentFilter.value,
+        type: controls.typeFilter.value,
         keyword: controls.keywordSearch.value.trim().toLowerCase(),
+        minEngagement: Number(controls.minEngagement.value || 0),
         startDate: controls.startDate.value,
         endDate: controls.endDate.value,
-        minEngagement: Number(controls.minEngagement.value || 0),
         sortBy: controls.sortBy.value
       };
 
@@ -374,6 +312,7 @@
         if (f.platform && r.platform !== f.platform) return false;
         if (f.community && r.community !== f.community) return false;
         if (f.sentiment && r.sentiment !== f.sentiment) return false;
+        if (f.type && r.type !== f.type) return false;
         if (f.keyword && !(`${r.title} ${r.body}`.toLowerCase().includes(f.keyword))) return false;
         if (f.startDate && r.date < f.startDate) return false;
         if (f.endDate && r.date > f.endDate) return false;
@@ -392,214 +331,101 @@
     }
 
     function render() {
-      renderMetrics();
-      renderTrendChart();
-      renderSentimentChart();
-      renderCommunityChart();
-      renderTable();
+      renderMetrics(); renderTrendChart(); renderSentimentChart(); renderCommunityChart(); renderTable();
     }
 
     function renderMetrics() {
       const rows = state.filtered;
-      const totalPosts = rows.length;
-      const totalEngagement = rows.reduce((s, r) => s + r.engagement, 0);
-      const totalComments = rows.reduce((s, r) => s + r.comments, 0);
-      const avgEngagement = totalPosts ? (totalEngagement / totalPosts) : 0;
-      const engagementPerComment = totalComments ? (totalEngagement / totalComments) : 0;
-      const positiveRate = totalPosts ? Math.round((rows.filter(r => r.sentiment === 'positive').length / totalPosts) * 100) : 0;
-
+      const posts = rows.filter(r => r.type === 'post').length;
+      const comments = rows.filter(r => r.type === 'comment').length;
+      const total = rows.length;
+      const engagement = rows.reduce((a, r) => a + r.engagement, 0);
+      const avg = total ? (engagement / total) : 0;
+      const pos = total ? Math.round(rows.filter(r => r.sentiment === 'positive').length / total * 100) : 0;
       const cards = [
-        ['Posts', totalPosts.toLocaleString()],
-        ['Total Engagement', totalEngagement.toLocaleString()],
-        ['Avg Engagement/Post', avgEngagement.toFixed(1)],
-        ['Comments', totalComments.toLocaleString()],
-        ['Engagement/Comment', engagementPerComment.toFixed(2)],
-        ['Positive Sentiment %', `${positiveRate}%`]
+        ['Total Records', total], ['Posts', posts], ['Comments', comments],
+        ['Total Engagement', engagement], ['Avg Engagement', avg.toFixed(1)], ['Positive %', `${pos}%`]
       ];
-
-      el('metrics').innerHTML = cards.map(([k, v]) => `
-        <article class="metric">
-          <h3>${k}</h3>
-          <div class="v">${v}</div>
-        </article>
-      `).join('');
+      el('metrics').innerHTML = cards.map(([k,v]) => `<article class="metric"><h3>${k}</h3><div class="v">${Number.isFinite(v) ? Number(v).toLocaleString() : v}</div></article>`).join('');
     }
 
     function makeCanvasCtx(id) {
-      const canvas = el(id);
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      return { canvas, ctx };
+      const canvas = el(id); const ctx = canvas.getContext('2d'); ctx.clearRect(0,0,canvas.width,canvas.height); return {canvas,ctx};
     }
 
-    function renderTrendChart() {
-      const { canvas, ctx } = makeCanvasCtx('trendChart');
-      const byDate = {};
-      state.filtered.forEach(r => byDate[r.date] = (byDate[r.date] || 0) + 1);
-      const labels = Object.keys(byDate).sort();
-      const vals = labels.map(d => byDate[d]);
-      drawLineChart(ctx, canvas.width, canvas.height, labels, vals, { color: '#22d3ee', fill: 'rgba(34,211,238,0.17)', yLabel: 'Posts' });
+    function drawAxes(ctx,w,h,p){ctx.strokeStyle='#334155';ctx.beginPath();ctx.moveTo(p.l,p.t);ctx.lineTo(p.l,h-p.b);ctx.lineTo(w-p.r,h-p.b);ctx.stroke();}
+
+    function drawLineChart(ctx, w, h, labels, values, color, fill) {
+      const p={l:42,r:10,t:16,b:30}; const max=Math.max(...values,1); drawAxes(ctx,w,h,p);
+      ctx.fillStyle='#94a3b8'; ctx.font='11px sans-serif';
+      labels.forEach((lb,i)=>{const x=p.l+(i*(w-p.l-p.r)/Math.max(labels.length-1,1)); ctx.fillText(lb.slice(5), x-15, h-8);});
+      ctx.strokeStyle=color; ctx.lineWidth=2; ctx.beginPath();
+      values.forEach((v,i)=>{const x=p.l+(i*(w-p.l-p.r)/Math.max(values.length-1,1)); const y=h-p.b-(v/max)*(h-p.t-p.b); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+      ctx.stroke(); ctx.lineTo(w-p.r,h-p.b); ctx.lineTo(p.l,h-p.b); ctx.closePath(); ctx.fillStyle=fill; ctx.fill();
     }
 
-    function renderSentimentChart() {
-      const { canvas, ctx } = makeCanvasCtx('sentimentChart');
-      const counts = { positive: 0, neutral: 0, negative: 0 };
-      state.filtered.forEach(r => counts[r.sentiment] = (counts[r.sentiment] || 0) + 1);
-      drawBarChart(ctx, canvas.width, canvas.height, ['positive', 'neutral', 'negative'], [counts.positive, counts.neutral, counts.negative], ['#22c55e', '#f59e0b', '#ef4444']);
+    function drawBarChart(ctx,w,h,labels,values,colors){
+      const p={l:36,r:12,t:18,b:28}; const max=Math.max(...values,1); drawAxes(ctx,w,h,p); const bw=(w-p.l-p.r)/(labels.length*1.5);
+      values.forEach((v,i)=>{const x=p.l+i*(bw*1.5)+bw*.25; const y=h-p.b-(v/max)*(h-p.t-p.b); ctx.fillStyle=colors[i%colors.length]; ctx.fillRect(x,y,bw,h-p.b-y); ctx.fillStyle='#cbd5e1'; ctx.font='11px sans-serif'; ctx.fillText(labels[i],x-6,h-8);});
     }
 
-    function renderCommunityChart() {
-      const { canvas, ctx } = makeCanvasCtx('communityChart');
-      const map = {};
-      state.filtered.forEach(r => map[r.community] = (map[r.community] || 0) + r.engagement);
-      const entries = Object.entries(map).sort((a, b) => b[1] - a[1]).slice(0, 8);
-      drawHorizontalBars(ctx, canvas.width, canvas.height, entries.map(x => x[0]), entries.map(x => x[1]), '#8b5cf6');
+    function drawHorizontalBars(ctx,w,h,labels,values,color){
+      const p={l:130,r:14,t:14,b:18}; const max=Math.max(...values,1); const rh=(h-p.t-p.b)/Math.max(labels.length,1); ctx.font='11px sans-serif';
+      labels.forEach((lb,i)=>{const y=p.t+i*rh; const bw=((values[i]||0)/max)*(w-p.l-p.r); ctx.fillStyle=color; ctx.fillRect(p.l,y+2,bw,rh-6); ctx.fillStyle='#cbd5e1'; ctx.fillText(lb.slice(0,18),6,y+rh/1.5); ctx.fillText(String(values[i]),p.l+bw+5,y+rh/1.5);});
     }
 
-    function drawLineChart(ctx, w, h, labels, values, options) {
-      const pad = { l: 42, r: 12, t: 16, b: 30 };
-      const maxY = Math.max(...values, 1);
-      drawAxes(ctx, w, h, pad);
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '11px sans-serif';
-      labels.forEach((lb, i) => {
-        const x = pad.l + (i * (w - pad.l - pad.r) / Math.max(labels.length - 1, 1));
-        ctx.fillText(lb.slice(5), x - 16, h - 8);
-      });
-      ctx.strokeStyle = options.color;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      values.forEach((v, i) => {
-        const x = pad.l + (i * (w - pad.l - pad.r) / Math.max(values.length - 1, 1));
-        const y = h - pad.b - ((v / maxY) * (h - pad.t - pad.b));
-        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-      });
-      ctx.stroke();
-
-      ctx.lineTo(w - pad.r, h - pad.b);
-      ctx.lineTo(pad.l, h - pad.b);
-      ctx.closePath();
-      ctx.fillStyle = options.fill;
-      ctx.fill();
-    }
-
-    function drawBarChart(ctx, w, h, labels, values, colors) {
-      const pad = { l: 36, r: 12, t: 18, b: 28 };
-      const maxY = Math.max(...values, 1);
-      drawAxes(ctx, w, h, pad);
-      const barW = (w - pad.l - pad.r) / (labels.length * 1.5);
-      values.forEach((v, i) => {
-        const x = pad.l + i * (barW * 1.5) + barW * 0.25;
-        const y = h - pad.b - (v / maxY) * (h - pad.t - pad.b);
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fillRect(x, y, barW, h - pad.b - y);
-        ctx.fillStyle = '#cbd5e1';
-        ctx.font = '11px sans-serif';
-        ctx.fillText(labels[i], x - 6, h - 8);
-        ctx.fillText(String(v), x + barW / 2 - 6, y - 5);
-      });
-    }
-
-    function drawHorizontalBars(ctx, w, h, labels, values, color) {
-      const pad = { l: 130, r: 14, t: 14, b: 18 };
-      const max = Math.max(...values, 1);
-      const rowH = (h - pad.t - pad.b) / Math.max(labels.length, 1);
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '11px sans-serif';
-      labels.forEach((lb, i) => {
-        const y = pad.t + i * rowH;
-        const barW = ((values[i] || 0) / max) * (w - pad.l - pad.r);
-        ctx.fillStyle = color;
-        ctx.fillRect(pad.l, y + 2, barW, rowH - 6);
-        ctx.fillStyle = '#cbd5e1';
-        ctx.fillText(lb.slice(0, 18), 6, y + rowH / 1.5);
-        ctx.fillText(String(values[i]), pad.l + barW + 5, y + rowH / 1.5);
-      });
-    }
-
-    function drawAxes(ctx, w, h, pad) {
-      ctx.strokeStyle = '#334155';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(pad.l, pad.t);
-      ctx.lineTo(pad.l, h - pad.b);
-      ctx.lineTo(w - pad.r, h - pad.b);
-      ctx.stroke();
-    }
+    function renderTrendChart(){const {canvas,ctx}=makeCanvasCtx('trendChart'); const by={}; state.filtered.forEach(r=>by[r.date]=(by[r.date]||0)+1); const labels=Object.keys(by).sort(); drawLineChart(ctx,canvas.width,canvas.height,labels,labels.map(k=>by[k]),'#22d3ee','rgba(34,211,238,0.15)');}
+    function renderSentimentChart(){const {canvas,ctx}=makeCanvasCtx('sentimentChart'); const c={positive:0,neutral:0,negative:0}; state.filtered.forEach(r=>c[r.sentiment]=(c[r.sentiment]||0)+1); drawBarChart(ctx,canvas.width,canvas.height,['positive','neutral','negative'],[c.positive,c.neutral,c.negative],['#22c55e','#f59e0b','#ef4444']);}
+    function renderCommunityChart(){const {canvas,ctx}=makeCanvasCtx('communityChart'); const map={}; state.filtered.forEach(r=>map[r.community]=(map[r.community]||0)+r.engagement); const top=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,8); drawHorizontalBars(ctx,canvas.width,canvas.height,top.map(x=>x[0]),top.map(x=>x[1]),'#8b5cf6');}
 
     function renderTable() {
-      const rows = state.filtered;
-      const html = rows.map(r => {
+      const html = state.filtered.map(r => {
         const cls = r.sentiment === 'positive' ? 'sent-positive' : r.sentiment === 'negative' ? 'sent-negative' : 'sent-neutral';
-        return `<tr>
-          <td>${r.date}</td>
-          <td>${escapeHtml(r.platform)}</td>
-          <td>${escapeHtml(r.community)}</td>
-          <td title="${escapeHtml(r.body)}">${escapeHtml(r.title || r.body).slice(0, 80)}</td>
-          <td><span class="tag ${cls}">${escapeHtml(r.sentiment)}</span></td>
-          <td>${r.engagement}</td>
-          <td>${r.comments}</td>
-        </tr>`;
+        return `<tr><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.type)}</td><td>${escapeHtml(r.platform)}</td><td>${escapeHtml(r.community)}</td><td title="${escapeHtml(r.body)}">${escapeHtml(r.title || r.body).slice(0,80)}</td><td><span class="tag ${cls}">${escapeHtml(r.sentiment)}</span></td><td>${r.engagement}</td><td>${r.comments}</td></tr>`;
       }).join('');
-
-      el('recordsBody').innerHTML = html || `<tr><td colspan="7" class="subtle">No records match the filters.</td></tr>`;
-      el('recordCount').textContent = `${rows.length} record(s) shown out of ${state.rows.length}.`;
+      el('recordsBody').innerHTML = html || `<tr><td colspan="8" class="subtle">No records match current filters.</td></tr>`;
+      el('recordCount').textContent = `${state.filtered.length} record(s) shown of ${state.rows.length} loaded.`;
     }
 
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
-    }
+    function escapeHtml(s){return String(s ?? '').replace(/[&<>'"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c]));}
 
     function exportFilteredCsv() {
-      const rows = state.filtered;
-      const headers = ['date', 'platform', 'community', 'title', 'body', 'sentiment', 'engagement', 'comments'];
-      const csv = [headers.join(',')].concat(rows.map(r => headers.map(h => `"${String(r[h] ?? '').replace(/"/g, '""')}"`).join(','))).join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'filtered_community_analytics.csv';
-      a.click();
-      URL.revokeObjectURL(url);
+      const headers = ['date','type','platform','community','title','body','sentiment','engagement','comments'];
+      const csv = [headers.join(',')].concat(state.filtered.map(r => headers.map(h => `"${String(r[h] ?? '').replace(/"/g,'""')}"`).join(','))).join('\n');
+      const blob = new Blob([csv],{type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a');
+      a.href = url; a.download = 'filtered_community_analytics.csv'; a.click(); URL.revokeObjectURL(url);
     }
 
     function resetFilters() {
-      controls.platformFilter.value = '';
-      controls.communityFilter.value = '';
-      controls.sentimentFilter.value = '';
-      controls.keywordSearch.value = '';
-      controls.startDate.value = '';
-      controls.endDate.value = '';
-      controls.minEngagement.value = '0';
-      controls.sortBy.value = 'date_desc';
+      controls.platformFilter.value=''; controls.communityFilter.value=''; controls.sentimentFilter.value=''; controls.typeFilter.value='';
+      controls.keywordSearch.value=''; controls.minEngagement.value='0'; controls.startDate.value=''; controls.endDate.value=''; controls.sortBy.value='date_desc';
       applyFilters();
     }
 
-    controls.csvFile.addEventListener('change', async (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
+    controls.csvFile.addEventListener('change', async e => {
+      const file = e.target.files?.[0]; if (!file) return;
       const text = await file.text();
-      state.rows = parseCsv(text);
-      updateFilterOptions();
-      resetFilters();
+      state.rows = parseCsv(text, 'post');
+      state.suiteCounts = { posts: state.rows.length, comments: 0, reactions: 0, events: 0, members: 0, unknown: 0 };
+      state.suiteFiles = [{ name: file.name, datasetType: 'posts', rows: state.rows.length }];
+      updateFilterOptions(); resetFilters();
+    });
+
+    controls.suiteFiles.addEventListener('change', async e => {
+      const files = [...(e.target.files || [])];
+      if (!files.length) return;
+      await loadSuiteFiles(files);
     });
 
     Object.values(controls).forEach(c => {
-      if (c instanceof HTMLInputElement || c instanceof HTMLSelectElement) {
-        c.addEventListener('input', applyFilters);
-      }
+      if (c instanceof HTMLInputElement || c instanceof HTMLSelectElement) c.addEventListener('input', applyFilters);
     });
 
-    controls.resetFilters.addEventListener('click', resetFilters);
     controls.exportCsv.addEventListener('click', exportFilteredCsv);
-    controls.loadSample.addEventListener('click', () => {
-      state.rows = [...sampleData];
-      updateFilterOptions();
-      resetFilters();
-    });
+    controls.loadSample.addEventListener('click', loadSampleSuite);
+    controls.resetFilters.addEventListener('click', resetFilters);
 
-    updateFilterOptions();
-    applyFilters();
+    loadSampleSuite();
   </script>
 </body>
 </html>
